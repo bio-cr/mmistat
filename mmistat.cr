@@ -6,7 +6,7 @@ end
 File.open(ARGV[0], "rb") do |file|
   # Read and verify the magic number
   magic = file.read_string(4)
-  puts "Magic number (raw): #{magic}"
+  puts "Magic number (raw): #{magic.inspect}"
   if magic != "MMI\2"
     raise "Invalid .mmi file: Magic number mismatch"
   end
@@ -29,10 +29,11 @@ File.open(ARGV[0], "rb") do |file|
   # Read sequence information
   puts "Sequences:"
   num_digits = num_sequences.to_s.size
+  puts "  Idx\tName\tLength"
   num_sequences.times do |i|
     name_length = file.read_bytes(UInt8)
     name = file.read_string(name_length)
     seq_length = file.read_bytes(Int32)
-    puts "  [#{(i + 1).to_s.rjust(num_digits)}] Name: #{name},\tLength: #{seq_length}"
+    puts "  [#{(i + 1).to_s.rjust(num_digits)}]\t#{name}\t#{seq_length}"
   end
 end
