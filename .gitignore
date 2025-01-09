@@ -1,0 +1,12 @@
+*.o
+*.a
+*.so
+*.out
+mmistat
+*~
+*.swp
+.DS_Store
+Thumbs.db
+.vscode/
+__MACOSX/
+.gitpod.yml
