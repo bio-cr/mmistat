@@ -1,6 +1,9 @@
-def read_mmi_file(filename : Path)
-  file = File.open(filename, "rb")
+if ARGV.size != 1
+  puts "Usage: crystal #{__FILE__} <index.mmi>"
+  exit 1
+end
 
+File.open(ARGV[0], "rb") do |file|
   # Read and verify the magic number
   magic = file.read_string(4)
   puts "Magic number (raw): #{magic}"
@@ -30,16 +33,6 @@ def read_mmi_file(filename : Path)
     name_length = file.read_bytes(UInt8)
     name = file.read_string(name_length)
     seq_length = file.read_bytes(Int32)
-    puts "  [#{(i + 1).to_s.rjust(num_digits)}] Name: #{name}, Length: #{seq_length}"
+    puts "  [#{(i + 1).to_s.rjust(num_digits)}] Name: #{name},\tLength: #{seq_length}"
   end
-
-  file.close
 end
-
-if ARGV.size != 1
-  puts "Usage: crystal #{__FILE__} <index.mmi>"
-  exit 1
-end
-
-filename = Path[ARGV[0]]
-read_mmi_file(filename)
