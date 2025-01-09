@@ -2,12 +2,15 @@ import struct
 
 def read_mmi_file(filename):
     with open(filename, "rb") as f:
-        # Verify the magic number
+        # Read and verify the magic number
         magic = f.read(4)
-        if magic != b"MMI\0":
+        print(f"Magic number (raw): {magic}")
+        if magic[:3] != b"MMI":
             raise ValueError("Invalid .mmi file: Magic number mismatch")
+        version = magic[3]
+        print(f"MMI version: {version}")
 
-        # Read the header fields
+        # Read header values
         kmer_size, seed_width, bucket_bits, num_sequences, flags = struct.unpack("<5I", f.read(20))
         print(f"MMI Header:")
         print(f"  k-mer size: {kmer_size}")
