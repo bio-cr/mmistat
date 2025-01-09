@@ -2,4 +2,4 @@
 
 Show mmi file stat
 
-MIT
+MIT (AI generated code)
