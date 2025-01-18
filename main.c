@@ -32,6 +32,9 @@ void print_mmi_metadata(const char *mmi_file) {
         printf("  [%d] Name: %s, Length: %d\n", i + 1, mi->seq[i].name, mi->seq[i].len);
     }
 
+    // Print index statistics
+    mm_idx_stat(mi);
+    
     // Free the index structure
     mm_idx_destroy(mi);
 }
