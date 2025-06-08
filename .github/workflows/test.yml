@@ -1,0 +1,47 @@
+name: test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-mmi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+
+      - name: Install build tools
+        run: sudo apt-get update && sudo apt-get install -y make gcc
+
+      - name: Build minimap2 (C)
+        run: |
+          cd minimap2
+          make
+
+      - name: Build mmistat (C)
+        run: make
+
+      - name: Build mmistat (Crystal)
+        run: shards build --release
+
+      - name: Create MMI index with minimap2
+        run: |
+          minimap2/minimap2 -d test.mmi minimap2/test/MT-human.fa
+
+      - name: Run mmistat (C)
+        run: ./mmistat test.mmi > c_output.txt
+
+      - name: Run mmistat (Crystal)
+        run: bin/mmistat test.mmi > crystal_output.txt
+
+      - name: Compare outputs
+        run: diff -u c_output.txt crystal_output.txt
