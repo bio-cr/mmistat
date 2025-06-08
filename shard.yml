@@ -1,0 +1,11 @@
+name: mmistat
+version: 0.1.0
+
+authors:
+  - kojix2 <2xijok@gmail.com>
+
+targets:
+  mmistat:
+    main: mmistat.cr
+
+license: MIT
