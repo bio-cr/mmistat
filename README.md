@@ -1,6 +1,6 @@
 # mmistat
 
-Show minimap2 index file (.mmi) statistics
+[minimap2](https://github.com/lh3/minimap2) index file (.mmi) statistics
 
 [![build](https://github.com/bio-cr/mmistat/actions/workflows/build.yml/badge.svg)](https://github.com/bio-cr/mmistat/actions/workflows/build.yml)
 [![test](https://github.com/bio-cr/mmistat/actions/workflows/test.yml/badge.svg)](https://github.com/bio-cr/mmistat/actions/workflows/test.yml)
@@ -16,13 +16,12 @@ minimap2 -x map-ont -d MT-human-ont.mmi test/MT-human.fa
 minimap2 -x map-pb  -d MT-human-pb.mmi  test/MT-human.fa
 ```
 
-Then run `mmistat` on the index file:
+Then run `mmistat` on the map-ont index file:
 
 ```sh
 mmistat MT-human-ont.mmi
 ```
 
-Example output:
 ```console
 Magic number (raw): "MMI\u0002"
 MMI Header:
@@ -37,11 +36,12 @@ Sequences:
   [1]   MT_human        16569
 ```
 
+Run `mmistat` on the map-pb index file:
+
 ```sh
 mmistat MT-human-pb.mmi
 ```
 
-Example output:
 ```console
 Magic number (raw): "MMI\u0002"
 MMI Header:
@@ -56,11 +56,18 @@ Sequences:
   [1]   MT_human        16569
 ```
 
+You can see that the k-mer size differs between the two index files.
+
+The output also shows the names and lengths of the chromosomes.
+
+This allows you to verify that the index file is as expected.
+
 ## Build
 
 ### Crystal version
 
 The Crystal version is faster because it only parses the header.
+
 It is expected to output the same results as the C version.
 
 ```sh
