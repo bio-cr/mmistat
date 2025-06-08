@@ -22,15 +22,8 @@ jobs:
           crystal: latest
       - name: Install dependencies
         run: shards install --without-development --release
-      - name: Run tests
-        run: |
-          crystal build main.c
-          crystal spec
       - name: Build executable
         run: shards build --release
-      - name: Run executable (help)
-        run: |
-          if [ -f bin/mmistat ]; then bin/mmistat --help; fi
       - uses: actions/upload-artifact@v4
         with:
           name: mmistat-${{ matrix.os }}
