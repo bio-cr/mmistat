@@ -5,6 +5,12 @@
 [![build](https://github.com/bio-cr/mmistat/actions/workflows/build.yml/badge.svg)](https://github.com/bio-cr/mmistat/actions/workflows/build.yml)
 [![test](https://github.com/bio-cr/mmistat/actions/workflows/test.yml/badge.svg)](https://github.com/bio-cr/mmistat/actions/workflows/test.yml)
 
+## Installation
+
+Download the latest release from [GitHub Releases](https://github.com/bio-cr/mmistat/releases).
+
+Note: Binaries for MacOS are not statically linked. To use on macOS, please build from source.
+
 ## Usage
 
 Create a minimap2 index file with the `-d` option:
