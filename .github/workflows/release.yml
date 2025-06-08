@@ -1,0 +1,62 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build_release:
+    name: Build Release ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu, macos, windows]
+    runs-on: ${{ matrix.os }}-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+
+      - name: Run Linux Build
+        if: matrix.os == 'ubuntu'
+        run: |
+          mkdir -p bin
+          chmod 755 bin
+          docker run -d --name alpine -v $(pwd):/workspace -w /workspace crystallang/crystal:latest-alpine tail -f /dev/null
+          docker exec alpine apk add readline-dev readline-static ncurses-dev ncurses-static ncurses-libs
+          docker exec alpine shards install --without-development --release --static
+          docker exec alpine shards build --release --static
+          docker exec alpine chmod +x bin/mmistat
+          docker exec alpine gzip bin/mmistat
+          docker exec alpine mv bin/mmistat.gz bin/mmistat-linux.gz
+
+      - name: Run Mac Build x64
+        if: matrix.os == 'macos'
+        run: |
+          shards install --without-development --release
+          shards build --release
+          chmod +x bin/mmistat
+          gzip bin/mmistat
+          mv bin/mmistat.gz bin/mmistat-macos.gz
+
+      - name: Run Windows Build x64
+        if: matrix.os == 'windows'
+        run: |
+          shards install --without-development --release
+          shards build --release --static
+          powershell Compress-Archive -Path bin/mmistat.exe -DestinationPath bin/mmistat-windows.zip
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            bin/mmistat-linux.gz
+            bin/mmistat-macos.gz
+            bin/mmistat-windows.zip
+            LICENSE.txt
