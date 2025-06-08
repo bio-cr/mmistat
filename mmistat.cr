@@ -1,13 +1,5 @@
 VERSION = {{ `shards version #{__DIR__}`.chomp.stringify }}
-USAGE   = <<-USAGE
-  Program: mmistat (minimap2 MMI file statistics) 
-  Version: #{VERSION}
-  Source:  https://github.com/bio-cr/mmistat
-
-    Usage:
-      mmistat <file.mmi>
-
-  USAGE
+USAGE   = "Usage: mmistat <index.mmi>\n"
 
 def main
   File.open(ARGV[0], "rb") do |file|
