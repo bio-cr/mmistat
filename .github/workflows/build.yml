@@ -24,7 +24,7 @@ jobs:
         run: shards install --without-development --release
       - name: Build executable
         run: shards build --release
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: mmistat-${{ matrix.os }}
           path: bin/${{ matrix.os == 'windows' && 'mmistat.exe' || 'mmistat' }}
