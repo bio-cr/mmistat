@@ -53,7 +53,7 @@ jobs:
           powershell Compress-Archive -Path bin/mmistat.exe -DestinationPath bin/mmistat-windows.zip
 
       - name: Upload Release Asset
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: |
             bin/mmistat-linux.gz
